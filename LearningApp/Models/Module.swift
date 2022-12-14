@@ -11,6 +11,7 @@ struct Module: Identifiable, Decodable {
     var id: Int
     var category: String
     var content: Content
+    var test: Test
     
 }
 
