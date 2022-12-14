@@ -12,70 +12,33 @@ struct HomeView: View {
     @EnvironmentObject var model: ContentModel
     
     var body: some View {
-        ScrollView {
-            
-            LazyVStack {
+        
+        NavigationView {
+            VStack(alignment: .leading) {
+                Text("What do you want to do today?")
+                    .padding(.leading, 20)
                 
-                ForEach(model.modules) { module in
-                    //Learning Card
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                            .aspectRatio(CGSize(width: 335, height: 175), contentMode: .fit)
-                        
-                        HStack {
-                            //Image
-                            Image(module.content.image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 116, height: 116)
-                                .clipShape(Circle())
-                            
-                            Spacer()
-                            
-                            //Text
-                            VStack(alignment: .leading, spacing:  10) {
-                                //Headline
-                                Text("Learn \(module.category)")
-                                    .bold()
-                                
-                                //Description
-                                Text(module.content.description)
-                                    .padding(.bottom, 20)
-                                    .font(.caption)
-                                
-                                //Icon
-                                HStack {
-                                    //Number of lessons/questions
-                                    Image(systemName: "text.book.closed")
-                                        .resizable()
-                                        .frame(width: 15, height: 15)
-                                    Text("\(module.content.lessons.count) Lessons")
-                                        .font(.caption)
-                                    
-                                    Spacer()
-                                    
-                                    //Time
-                                    Image(systemName: "clock")
-                                        .resizable()
-                                        .frame(width: 15, height: 15)
-                                    Text(module.content.time)
-                                        .font(.caption)
-                                    
-                                }
-                            }
-                            padding(.leading, 20)
-                        }
-                        .padding(.horizontal, 20)
-                    }
+                ScrollView {
                     
-                    //Test Card
+                    LazyVStack {
+                        
+                        ForEach(model.modules) { module in
+                            //Learning Card
+                            VStack(spacing: 20) {
+                                HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
+                                //Test Card
+                                HomeViewRow(image: module.test.image, title: "Test \(module.category)", description: module.test.description, count: "\(module.test.questions.count) Questions", time: module.test.time)
+                            }
+                            
+                            
+                        }
+                    }
+                    .padding()
                 }
             }
-            .padding()
+            .navigationTitle("Get Started")
         }
+        
     }
 }
 
